@@ -29,7 +29,8 @@
             android:layout_height="60dp"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textColorLink="#FFFFFF"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/email"
@@ -37,6 +38,7 @@
             android:layout_height="60dp"
             android:text="TextView"
             android:textColor="#FFFFFF"
+            android:textColorLink="#FFFFFF"
             android:textSize="20sp" />
 
         <TextView
@@ -45,7 +47,8 @@
             android:layout_height="60dp"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textColorLink="#FFFFFF"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/location"
@@ -53,6 +56,7 @@
             android:layout_height="60dp"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textColorLink="#FFFFFF"
+            android:textSize="20sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
