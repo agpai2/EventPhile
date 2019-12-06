@@ -2,6 +2,8 @@ package com.example.eventphile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 public class ContactUsActivity extends AppCompatActivity {
@@ -22,12 +24,13 @@ public class ContactUsActivity extends AppCompatActivity {
         TextView location = findViewById(R.id.location);
 
         phoneText = "+1 (217) 111 2222";
-        emailText = "eventsApp@events.com";
+        //emailText = "eventsApp@events.com";
         webText = "https://events.com";
         locationText = "Champaign, IL";
 
         phone.setText(phoneText);
-        email.setText(emailText);
+        email.setText(Html.fromHtml("<a href=\"mailto: aniruddh.g.pai@gmail.com\">Email: aniruddh.g.pai@gmail.com</a>"));
+        email.setMovementMethod(LinkMovementMethod.getInstance());
         website.setText(webText);
         location.setText(locationText);
     }

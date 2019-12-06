@@ -2,8 +2,10 @@ package com.example.eventphile;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,10 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Typeface typeface;
+        TextView font = findViewById(R.id.font);
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
+        font.setTypeface(typeface);
         //For all below code, should we finish or not??
         TextView title = findViewById(R.id.title);
         title.setTextColor(Color.WHITE);
