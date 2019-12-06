@@ -25,13 +25,17 @@ public class ContactUsActivity extends AppCompatActivity {
 
         phoneText = "+1 (217) 111 2222";
         //emailText = "eventsApp@events.com";
-        webText = "https://events.com";
+        //webText = "https://www.ticketmaster.com";
         locationText = "Champaign, IL";
 
         phone.setText(phoneText);
-        email.setText(Html.fromHtml("<a href=\"mailto: aniruddh.g.pai@gmail.com\">Email: aniruddh.g.pai@gmail.com</a>"));
+
+        email.setText(Html.fromHtml("<a href=mailto: aniruddh.g.pai@gmail.com>aniruddh.g.pai@gmail.com</a>"));
         email.setMovementMethod(LinkMovementMethod.getInstance());
-        website.setText(webText);
+
+        website.setText(Html.fromHtml("<a href='https://www.ticketmaster.com'>https://www.ticketmaster.com</a>"));
+        website.setMovementMethod(LinkMovementMethod.getInstance());
+
         location.setText(locationText);
     }
 }
