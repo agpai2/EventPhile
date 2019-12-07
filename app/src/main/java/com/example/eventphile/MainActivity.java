@@ -4,11 +4,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public final class MainActivity extends AppCompatActivity {
 
@@ -22,9 +29,9 @@ public final class MainActivity extends AppCompatActivity {
         typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
         font.setTypeface(typeface);
         //For all below code, should we finish or not??
-        TextView title = findViewById(R.id.title);
-        title.setTextColor(Color.WHITE);
-        title.setBackgroundColor(Color.CYAN);
+        //TextView title = findViewById(R.id.title);
+        //title.setTextColor(Color.WHITE);
+        //title.setBackgroundColor(Color.CYAN);
 
 
         Button eventsmap = findViewById(R.id.mapButton);
@@ -51,5 +58,21 @@ public final class MainActivity extends AppCompatActivity {
         contact.setOnClickListener(unused -> {
             startActivity(new Intent(this, ContactUsActivity.class));
         });
+
+        final int[] backgroundImages = {R.drawable.event1, R.drawable.event2, R.drawable.event3, R.drawable.event4, R.drawable.event5, R.drawable.event6};
+        final LinearLayout background = findViewById(R.id.mylayout);
+        background.setBackgroundResource(backgroundImages[new Random().nextInt(6)]);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        background.setBackgroundResource(backgroundImages[new Random().nextInt(6)]);
+                    }
+                }, 2500);
+            }
+        }, 0, 2500);
     }
 }
