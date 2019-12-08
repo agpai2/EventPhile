@@ -1,19 +1,49 @@
 package com.example.eventphile;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.DownloadManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import javax.xml.transform.ErrorListener;
+
+import static com.android.volley.Response.*;
+
+//import org.json.JSONObject;
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private double latitude;
+
+    private double longitude;
+
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        sendRequest();
     }
 
     /**
@@ -43,9 +75,101 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(uiuc).title("Marker in UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
+
     }
-    /*marker.seOnclickl(unused_>{
-        Intent intent = new Intent();
-        intent.putExtra("eventname", actualname)
-    })*/
+
+    public void sendRequest() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://app.ticketmaster.com/discovery/v2/events?apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk&locale=*";
+
+        GsonRequest request = new GsonRequest(url, MapsActivity.class, null,  new Response.Listener<JsonObject>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                System.out.println(response.toString());
+                Log.i("MapsActivity", "Hey, hey, hey!!!");
+                //JsonObject object = response;
+                JsonElement embedded = response.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.getAsJsonArray();
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    JsonArray classifications = b.get("classifications").getAsJsonArray();
+                    for (JsonElement classification : classifications) {
+                        JsonObject c = classification.getAsJsonObject();
+                        JsonObject segment = c.get("segment").getAsJsonObject();
+                        String category = segment.get("name").getAsString();
+                    }
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("Longitude").getAsDouble();
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name));
+                    }
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("MapsActivity", error.toString());
+            }
+        });
+        queue.add(request);
+    }
+
+
+    private Response.Listener<JsonObject> createResponseListener() {
+        return new Response.Listener<JsonObject>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                Log.i("MapsActivity", "Hey, hey, hey!!!");
+
+                //JsonObject object = response;
+                JsonElement embedded = response.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.getAsJsonArray();
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    JsonArray classifications = b.get("classifications").getAsJsonArray();
+                    for (JsonElement classification : classifications) {
+                        JsonObject c = classification.getAsJsonObject();
+                        JsonObject segment = c.get("segment").getAsJsonObject();
+                        String category = segment.get("name").getAsString();
+                    }
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("Longitude").getAsDouble();
+                        System.out.println(latitude);
+                        System.out.println(longitude);
+                        System.out.println(" ");
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name));
+                    }
+
+                }
+            }
+
+
+        };
+    }
+
+    private Response.ErrorListener createErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        };
+    }
 }
