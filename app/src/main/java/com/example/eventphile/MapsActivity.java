@@ -44,4 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(uiuc).title("Marker in UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
     }
+    /*marker.seOnclickl(unused_>{
+        Intent intent = new Intent();
+        intent.putExtra("eventname", actualname)
+    })*/
 }
