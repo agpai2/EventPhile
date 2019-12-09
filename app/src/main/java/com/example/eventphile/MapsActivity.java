@@ -124,8 +124,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onResponse(JsonObject response) {
                 Log.i("MapsActivity", "Hey, hey, hey!!!");
-
-                //JsonObject object = response;
                 JsonElement embedded = response.get("_embedded").getAsJsonObject();
                 JsonArray events = embedded.getAsJsonArray();
                 for (JsonElement event : events) {
