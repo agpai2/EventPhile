@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -29,6 +30,8 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import javax.xml.transform.ErrorListener;
 
@@ -45,6 +48,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double longitude;
 
     private String name;
+
+    private ArrayList<String> eventNames = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        //String nameCheck;
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
@@ -77,15 +83,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(uiuc).title("Marker in UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
 
-        /*mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        Intent intent = new Intent(MapsActivity.this, NotificationActivity.class);
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                int position = (int)(marker.getTag());
-                Intent intent = new Intent();
-                startActivity(NotificationActivity);
-                return false;
+               String title = marker.getTitle();
+               for (int i = 0; i < eventNames.size(); i++) {
+                   if (eventNames.get(i).equals(title)) {
+                       intent.putExtra("nameCheck", title);
+                       startActivity(intent);
+                   }
+               }
+               //Intent intent = new Intent(MapsActivity.this, NotificationActivity.class);
+               //startActivity(intent);
+               return false;
             }
-        });*/
+        });
 
     }
 
@@ -118,9 +132,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         latitude = location.get("latitude").getAsDouble();
                         longitude = location.get("longitude").getAsDouble();
 
+                        eventNames.add(name);
                         mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
-                                .title(name));
+                                .title(name)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+
+                        /*Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name));*/
                     }
 
                 }
