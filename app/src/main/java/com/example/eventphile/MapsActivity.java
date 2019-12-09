@@ -82,14 +82,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "https://app.ticketmaster.com/discovery/v2/events?apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk&locale=*";
 
-        GsonRequest request = new GsonRequest(url, MapsActivity.class, null,  new Response.Listener<JsonObject>() {
-            @Override
-            public void onResponse(JsonObject response) {
-                System.out.println(response.toString());
-                Log.i("MapsActivity", "Hey, hey, hey!!!");
-                //JsonObject object = response;
-                JsonElement embedded = response.get("_embedded").getAsJsonObject();
-                JsonArray events = embedded.getAsJsonArray();
+        GsonRequest<JsonElement> request = new GsonRequest<JsonElement>(url, null,  response ->  {
+
+                JsonObject object = response.getAsJsonObject();
+                Log.i("MapsActivity", "Hey, hey, hey!!!" + object.toString());
+                JsonObject embedded = object.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.get("events").getAsJsonArray();
+                Log.i("MapsActivity", "Hello");
                 for (JsonElement event : events) {
                     JsonObject b = event.getAsJsonObject();
                     String name = b.get("name").getAsString();
@@ -105,7 +104,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         JsonObject d = venue.getAsJsonObject();
                         JsonObject location = d.get("location").getAsJsonObject();
                         latitude = location.get("latitude").getAsDouble();
-                        longitude = location.get("Longitude").getAsDouble();
+                        longitude = location.get("longitude").getAsDouble();
 
                         mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
@@ -113,12 +112,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
 
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+        }, error ->  {
                 Log.i("MapsActivity", error.toString());
-            }
         });
         queue.add(request);
     }
