@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -76,6 +77,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(uiuc).title("Marker in UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
 
+        /*mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                int position = (int)(marker.getTag());
+                Intent intent = new Intent();
+                startActivity(NotificationActivity);
+                return false;
+            }
+        });*/
+
     }
 
     public void sendRequest() {
@@ -84,6 +95,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         GsonRequest<JsonElement> request = new GsonRequest<JsonElement>(url, null,  response ->  {
 
+                name = "Event";
                 JsonObject object = response.getAsJsonObject();
                 Log.i("MapsActivity", "Hey, hey, hey!!!" + object.toString());
                 JsonObject embedded = object.get("_embedded").getAsJsonObject();
@@ -148,6 +160,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
                                 .title(name));
+
                     }
 
                 }
