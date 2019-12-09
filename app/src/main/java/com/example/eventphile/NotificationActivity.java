@@ -3,6 +3,7 @@ package com.example.eventphile;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,22 +35,29 @@ public class NotificationActivity extends AppCompatActivity {
         name = getIntent().getStringExtra("nameCheck"); //check this again
         eventname.setText(name);
 
-        Switch setNotification = findViewById(R.id.switch1);
-        setNotification.setOnClickListener(unused -> {
-            notification(name);
-        });
-
         Button button = findViewById(R.id.addReminder);
         button.setOnClickListener(unused -> {
-            Intent intent = new Intent(this, CalenderActivity.class);
-            intent.putExtra("name", name);
-            startActivity(intent);
+            notification(name);
+
         });
+        Button setTime = findViewById(R.id.setTime);
+        setTime.setOnClickListener(unused -> {
+            DialogFragment timeFragment = new TimePickerFragment();
+            timeFragment.show(getSupportFragmentManager(), "timePicker");
+        });
+        Button setDate = findViewById(R.id.setDate);
+        setDate.setOnClickListener(unused -> {
+            DialogFragment dateFragment = new DatePickerFragment();
+            dateFragment.show(getSupportFragmentManager(), "datePicker");
+        });
+
+
+
     }
 
     protected void notification(String name) {
 
-        builder = new NotificationCompat.Builder(this)
+        builder = new NotificationCompat.Builder(this, "myFoot")
                 .setSmallIcon(R.drawable.appicon)
                 .setContentTitle("EventPhile")
                 .setContentText(name)
@@ -60,10 +68,10 @@ public class NotificationActivity extends AppCompatActivity {
         PendingIntent contentInfo = PendingIntent.getActivity(this, 0, notifier, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentInfo);
         builder.build();
-        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify(1, builder.build());
 
     }
 }
