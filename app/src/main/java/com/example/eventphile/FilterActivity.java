@@ -3,8 +3,10 @@ package com.example.eventphile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class FilterActivity extends AppCompatActivity {
 
@@ -18,6 +20,11 @@ public class FilterActivity extends AppCompatActivity {
         Button music = findViewById(R.id.music);
         Button arts = findViewById(R.id.arts);
         Button family = findViewById(R.id.family);
+
+        Typeface typeface;
+        TextView textView = findViewById(R.id.textView);
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
+        textView.setTypeface(typeface);
 
         Intent intent = new Intent(this, MapsActivity.class);
 

@@ -3,4 +3,5 @@
     <string name="title_activity_maps">EventPhile</string>
     <string name="channel_name">checkName</string>
     <string name="channel_description">checkDescription</string>
+
 </resources>
