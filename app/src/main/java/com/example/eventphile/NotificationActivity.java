@@ -12,22 +12,16 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.TimeZone;
+
+import static com.example.eventphile.Global.strings;
 
 @SuppressWarnings("deprecation")
 public class NotificationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -36,7 +30,7 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
     private NotificationCompat.Builder builder;
     private NotificationManager manager;
     private java.util.Date date;
-    private ArrayList<String> strings = new ArrayList<>();
+    //private ArrayList<String> strings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +41,7 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
         name = getIntent().getStringExtra("nameCheck"); //check this again
         eventname.setText(name);
 
-        Button button = findViewById(R.id.addReminder);
+        /*Button button = findViewById(R.id.addReminder);
         button.setOnClickListener(unused -> {
             notification(name);
 
@@ -66,19 +60,19 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
             DialogFragment dateFragment = new DatePickerFragment();
             dateFragment.show(getSupportFragmentManager(), "datePicker");
             //java.util.Date date = getDateFromDatePicker();
-        });
+        });*/
 
         Button favorite = findViewById(R.id.favorite);
         favorite.setOnClickListener(unused -> {
             Intent intent = new Intent(this, CalenderActivity.class);
             strings.add(name);
-            intent.putExtra("eventName", strings);
+            //intent.putExtra("eventName", strings);
             startActivity(intent);
         });
 
     }
 
-    protected void notification(String name) {
+    /*protected void notification(String name) {
 
         builder = new NotificationCompat.Builder(this, "myFoot")
                 .setSmallIcon(R.drawable.appicon)
@@ -96,7 +90,7 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
 
         notificationManager.notify(1, builder.build());
 
-    }
+    }*/
 
     /*public static java.util.Date getDateFromDatePicker(DatePicker datePicker){
         int day = datePicker.getDayOfMonth();

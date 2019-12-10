@@ -13,9 +13,11 @@ import com.google.android.gms.common.util.Strings;
 
 import java.util.ArrayList;
 
+import static com.example.eventphile.Global.strings;
+
 public class CalenderActivity extends AppCompatActivity {
 
-    private ArrayList<String> strings = new ArrayList<>();
+    //private ArrayList<String> strings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class CalenderActivity extends AppCompatActivity {
         //reminders.removeAllViews();
         //View myChunk = getLayoutInflater().inflate(R.layout.chunk_reminders, reminders, false );
 
-        strings = getIntent().getStringArrayListExtra("eventName");
+        //strings = getIntent().getStringArrayListExtra("eventName");
 
         TextView eventNames = findViewById(R.id.eventNames);
         //TextView date = myChunk.findViewById(R.id.date);
