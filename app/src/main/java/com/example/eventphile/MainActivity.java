@@ -47,7 +47,7 @@ public final class MainActivity extends AppCompatActivity {
         Button reminder = findViewById(R.id.reminderCalendar);
         //context must be checked
         reminder.setOnClickListener(unused -> {
-            startActivity(new Intent(this, FavoritesActivity.class));
+            startActivity(new Intent(this, CalenderActivity.class));
         });
 
         Button about = findViewById(R.id.aboutUs);

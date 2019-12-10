@@ -83,7 +83,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Add a marker in Sydney and move the camera
         LatLng uiuc = new LatLng(40.110558, -88.228333);
 
-        mMap.addMarker(new MarkerOptions().position(uiuc).title("UIUC"));
+        //mMap.addMarker(new MarkerOptions().position(uiuc).title("UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
 
         Intent intent = new Intent(MapsActivity.this, NotificationActivity.class);

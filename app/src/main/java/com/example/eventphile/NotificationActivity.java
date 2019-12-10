@@ -44,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity  {
 
         Button favorite = findViewById(R.id.favorite);
         favorite.setOnClickListener(unused -> {
-            Intent intent = new Intent(this, FavoritesActivity.class);
+            Intent intent = new Intent(this, CalenderActivity.class);
             strings.add(name);
             //intent.putExtra("eventName", strings);
             startActivity(intent);

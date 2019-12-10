@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import static com.example.eventphile.Global.strings;
 
-public class FavoritesActivity extends AppCompatActivity {
+public class CalenderActivity extends AppCompatActivity {
 
     //private ArrayList<String> strings = new ArrayList<>();
 
