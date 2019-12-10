@@ -30,30 +30,11 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //private void createNotificationChannel() {
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                CharSequence name = getString(R.string.channel_name);
-                String description = getString(R.string.channel_description);
-                int importance = NotificationManager.IMPORTANCE_DEFAULT;
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription(description);
-                // Register the channel with the system; you can't change the importance
-                // or other notification behaviors after this
-                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
-            }*/
-        //}
 
         Typeface typeface;
         TextView font = findViewById(R.id.font);
         typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
         font.setTypeface(typeface);
-        //For all below code, should we finish or not??
-        //TextView title = findViewById(R.id.title);
-        //title.setTextColor(Color.WHITE);
-        //title.setBackgroundColor(Color.CYAN);
 
 
         Button eventsmap = findViewById(R.id.mapButton);
@@ -66,7 +47,7 @@ public final class MainActivity extends AppCompatActivity {
         Button reminder = findViewById(R.id.reminderCalendar);
         //context must be checked
         reminder.setOnClickListener(unused -> {
-            startActivity(new Intent(this, CalenderActivity.class));
+            startActivity(new Intent(this, FavoritesActivity.class));
         });
 
         Button about = findViewById(R.id.aboutUs);

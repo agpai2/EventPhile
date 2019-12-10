@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import static com.example.eventphile.Global.strings;
 
-public class CalenderActivity extends AppCompatActivity {
+public class FavoritesActivity extends AppCompatActivity {
 
     //private ArrayList<String> strings = new ArrayList<>();
 
@@ -33,9 +33,9 @@ public class CalenderActivity extends AppCompatActivity {
         TextView eventNames = findViewById(R.id.eventNames);
         //TextView date = myChunk.findViewById(R.id.date);
         //TextView time = myChunk.findViewById(R.id.time);
-        String empty =" ";
+        String empty ="";
         for (String string : strings) {
-            empty += string + "\n";
+            empty += string + "\n" + "\n";
         }
         eventNames.setText(empty);
         //eventNames.setText(eventName);

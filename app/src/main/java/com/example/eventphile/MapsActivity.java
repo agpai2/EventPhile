@@ -156,12 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             });
             queue.add(request);
 
-        }
-
-
-
-
-        if (getIntent().getStringExtra("category").equals("music")) {
+        } else if (getIntent().getStringExtra("category").equals("music")) {
             String url1 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
             GsonRequest<JsonElement> request1 = new GsonRequest<JsonElement>(url1, null,  response ->  {
 
@@ -197,9 +192,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.i("MapsActivity", error.toString());
             });
             queue.add(request1);
-        }
-
-        if (getIntent().getStringExtra("category").equals("family")) {
+        } else if (getIntent().getStringExtra("category").equals("family")) {
             String url2 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=family&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
             GsonRequest<JsonElement> request2 = new GsonRequest<JsonElement>(url2, null,  response ->  {
 
@@ -245,9 +238,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             });
             queue.add(request2);
 
-        }
-
-        if (getIntent().getStringExtra("category").equals("arts")) {
+        } else if (getIntent().getStringExtra("category").equals("arts")) {
             String url3 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=arts&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
             GsonRequest<JsonElement> request3 = new GsonRequest<JsonElement>(url3, null,  response ->  {
