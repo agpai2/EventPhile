@@ -24,6 +24,7 @@ import android.widget.TimePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -35,6 +36,7 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
     private NotificationCompat.Builder builder;
     private NotificationManager manager;
     private java.util.Date date;
+    private ArrayList<String> strings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,13 @@ public class NotificationActivity extends AppCompatActivity implements DatePicke
             //java.util.Date date = getDateFromDatePicker();
         });
 
-
+        Button favorite = findViewById(R.id.favorite);
+        favorite.setOnClickListener(unused -> {
+            Intent intent = new Intent(this, CalenderActivity.class);
+            strings.add(name);
+            intent.putExtra("eventName", strings);
+            startActivity(intent);
+        });
 
     }
 

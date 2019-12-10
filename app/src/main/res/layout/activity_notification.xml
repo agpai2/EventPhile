@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="501dp"
         android:layout_marginEnd="16dp"
         android:text="Add to Reminders" />
 
@@ -72,5 +72,17 @@
         android:layout_marginStart="102dp"
         android:layout_marginLeft="102dp"
         android:layout_marginBottom="307dp" />
+
+    <Button
+        android:id="@+id/favorite"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="144dp"
+        android:text="ADD TO FAVORITES" />
 
 </RelativeLayout>

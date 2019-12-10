@@ -53,6 +53,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private ArrayList<String> eventNames = new ArrayList<String>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,179 +108,192 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void sendRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=sports&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
-        GsonRequest<JsonElement> request = new GsonRequest<JsonElement>(url, null, response -> {
+        if (getIntent().getStringExtra("category").equals("sports")) {
+            String url = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=sports&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
-            //name = "Event";
-            JsonObject object = response.getAsJsonObject();
-            JsonObject embedded = object.get("_embedded").getAsJsonObject();
-            JsonArray events = embedded.get("events").getAsJsonArray();
-            Log.i("MapsActivity", "Hello");
-            for (JsonElement event : events) {
-                JsonObject b = event.getAsJsonObject();
-                String name = b.get("name").getAsString();
-                //JsonArray classifications = b.get("classifications").getAsJsonArray();
-                JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
-                JsonArray venues = embedded1.get("venues").getAsJsonArray();
+            GsonRequest<JsonElement> request = new GsonRequest<JsonElement>(url, null,  response ->  {
+
+                //name = "Event";
+                JsonObject object = response.getAsJsonObject();
+                JsonObject embedded = object.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.get("events").getAsJsonArray();
+                Log.i("MapsActivity", "Hello");
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
                     /*for (JsonElement classification : classifications) {
                         JsonObject c = classification.getAsJsonObject();
                         JsonObject segment = c.get("segment").getAsJsonObject();
                         String category = segment.get("name").getAsString();
                     }*/
-                for (JsonElement venue : venues) {
-                    JsonObject d = venue.getAsJsonObject();
-                    JsonObject location = d.get("location").getAsJsonObject();
-                    latitude = location.get("latitude").getAsDouble();
-                    longitude = location.get("longitude").getAsDouble();
-                    //if (exists(new LatLng(latitude, longitude))
-                    markerlist.add(new LatLng(latitude, longitude));
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("longitude").getAsDouble();
+                        //if (exists(new LatLng(latitude, longitude))
+                        markerlist.add(new LatLng(latitude, longitude));
 
-                    eventNames.add(name);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latitude, longitude))
-                            .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                        eventNames.add(name);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
 
 
                         /*Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
                                 .title(name));*/
+                    }
+
                 }
+            }, error ->  {
+                Log.i("MapsActivity", error.toString());
+            });
+            queue.add(request);
 
-            }
-        }, error -> {
-            Log.i("MapsActivity", error.toString());
-        });
-        queue.add(request);
+        }
 
 
-        String url1 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
-        GsonRequest<JsonElement> request1 = new GsonRequest<JsonElement>(url1, null, response -> {
 
-            //name = "Event";
-            JsonObject object = response.getAsJsonObject();
-            JsonObject embedded = object.get("_embedded").getAsJsonObject();
-            JsonArray events = embedded.get("events").getAsJsonArray();
-            Log.i("MapsActivity", "Hello");
-            for (JsonElement event : events) {
-                JsonObject b = event.getAsJsonObject();
-                String name = b.get("name").getAsString();
-                JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
-                JsonArray venues = embedded1.get("venues").getAsJsonArray();
-                for (JsonElement venue : venues) {
-                    JsonObject d = venue.getAsJsonObject();
-                    JsonObject location = d.get("location").getAsJsonObject();
-                    latitude = location.get("latitude").getAsDouble();
-                    longitude = location.get("longitude").getAsDouble();
-                    markerlist.add(new LatLng(latitude, longitude));
+
+        if (getIntent().getStringExtra("category").equals("music")) {
+            String url1 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
+            GsonRequest<JsonElement> request1 = new GsonRequest<JsonElement>(url1, null,  response ->  {
+
+                //name = "Event";
+                JsonObject object = response.getAsJsonObject();
+                JsonObject embedded = object.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.get("events").getAsJsonArray();
+                Log.i("MapsActivity", "Hello");
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("longitude").getAsDouble();
+                        markerlist.add(new LatLng(latitude, longitude));
                     /*mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(latitude, longitude))
                             .title(name));*/
-                    eventNames.add(name);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latitude, longitude))
-                            .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                        eventNames.add(name);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                    }
                 }
-            }
 
 
-        }, error -> {
-            Log.i("MapsActivity", error.toString());
-        });
-        queue.add(request1);
+            }, error ->  {
+                Log.i("MapsActivity", error.toString());
+            });
+            queue.add(request1);
+        }
 
-        String url2 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=family&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
-        GsonRequest<JsonElement> request2 = new GsonRequest<JsonElement>(url2, null, response -> {
+        if (getIntent().getStringExtra("category").equals("family")) {
+            String url2 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=family&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
+            GsonRequest<JsonElement> request2 = new GsonRequest<JsonElement>(url2, null,  response ->  {
 
-            //name = "Event";
-            JsonObject object = response.getAsJsonObject();
-            JsonObject embedded = object.get("_embedded").getAsJsonObject();
-            JsonArray events = embedded.get("events").getAsJsonArray();
-            Log.i("MapsActivity", "Hello");
-            for (JsonElement event : events) {
-                JsonObject b = event.getAsJsonObject();
-                String name = b.get("name").getAsString();
-                //JsonArray classifications = b.get("classifications").getAsJsonArray();
-                JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
-                JsonArray venues = embedded1.get("venues").getAsJsonArray();
+                //name = "Event";
+                JsonObject object = response.getAsJsonObject();
+                JsonObject embedded = object.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.get("events").getAsJsonArray();
+                Log.i("MapsActivity", "Hello");
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
                     /*for (JsonElement classification : classifications) {
                         JsonObject c = classification.getAsJsonObject();
                         JsonObject segment = c.get("segment").getAsJsonObject();
                         String category = segment.get("name").getAsString();
                     }*/
-                for (JsonElement venue : venues) {
-                    JsonObject d = venue.getAsJsonObject();
-                    JsonObject location = d.get("location").getAsJsonObject();
-                    latitude = location.get("latitude").getAsDouble();
-                    longitude = location.get("longitude").getAsDouble();
-                    //if (exists(new LatLng(latitude, longitude))
-                    markerlist.add(new LatLng(latitude, longitude));
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("longitude").getAsDouble();
+                        //if (exists(new LatLng(latitude, longitude))
+                        markerlist.add(new LatLng(latitude, longitude));
 
-                    eventNames.add(name);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latitude, longitude))
-                            .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        eventNames.add(name);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
                         /*Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
                                 .title(name));*/
+                    }
+
                 }
+            }, error ->  {
+                Log.i("MapsActivity", error.toString());
+            });
+            queue.add(request2);
 
-            }
-        }, error -> {
-            Log.i("MapsActivity", error.toString());
-        });
-        queue.add(request2);
+        }
 
+        if (getIntent().getStringExtra("category").equals("arts")) {
+            String url3 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=arts&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
-        String url3 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=arts&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
+            GsonRequest<JsonElement> request3 = new GsonRequest<JsonElement>(url3, null,  response ->  {
 
-        GsonRequest<JsonElement> request3 = new GsonRequest<JsonElement>(url, null, response -> {
-
-            //name = "Event";
-            JsonObject object = response.getAsJsonObject();
-            JsonObject embedded = object.get("_embedded").getAsJsonObject();
-            JsonArray events = embedded.get("events").getAsJsonArray();
-            Log.i("MapsActivity", "Hello");
-            for (JsonElement event : events) {
-                JsonObject b = event.getAsJsonObject();
-                String name = b.get("name").getAsString();
-                //JsonArray classifications = b.get("classifications").getAsJsonArray();
-                JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
-                JsonArray venues = embedded1.get("venues").getAsJsonArray();
+                //name = "Event";
+                JsonObject object = response.getAsJsonObject();
+                JsonObject embedded = object.get("_embedded").getAsJsonObject();
+                JsonArray events = embedded.get("events").getAsJsonArray();
+                Log.i("MapsActivity", "Hello");
+                for (JsonElement event : events) {
+                    JsonObject b = event.getAsJsonObject();
+                    String name = b.get("name").getAsString();
+                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
+                    JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
+                    JsonArray venues = embedded1.get("venues").getAsJsonArray();
                     /*for (JsonElement classification : classifications) {
                         JsonObject c = classification.getAsJsonObject();
                         JsonObject segment = c.get("segment").getAsJsonObject();
                         String category = segment.get("name").getAsString();
                     }*/
-                for (JsonElement venue : venues) {
-                    JsonObject d = venue.getAsJsonObject();
-                    JsonObject location = d.get("location").getAsJsonObject();
-                    latitude = location.get("latitude").getAsDouble();
-                    longitude = location.get("longitude").getAsDouble();
-                    //if (exists(new LatLng(latitude, longitude))
-                    markerlist.add(new LatLng(latitude, longitude));
+                    for (JsonElement venue : venues) {
+                        JsonObject d = venue.getAsJsonObject();
+                        JsonObject location = d.get("location").getAsJsonObject();
+                        latitude = location.get("latitude").getAsDouble();
+                        longitude = location.get("longitude").getAsDouble();
+                        //if (exists(new LatLng(latitude, longitude))
+                        markerlist.add(new LatLng(latitude, longitude));
 
-                    eventNames.add(name);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(latitude, longitude))
-                            .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                        eventNames.add(name);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(latitude, longitude))
+                                .title(name)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
 
                         /*Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
                                 .title(name));*/
-                }
+                    }
 
-            }
-        }, error -> {
-            Log.i("MapsActivity", error.toString());
-        });
-        //queue.add(request3);
+                }
+            }, error ->  {
+                Log.i("MapsActivity", error.toString());
+            });
+            queue.add(request3);
+        }
+
     }
 }
