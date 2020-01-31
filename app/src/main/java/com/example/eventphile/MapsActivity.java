@@ -47,8 +47,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private double longitude;
 
-    //private String name;
-
     private ArrayList<LatLng> markerlist = new ArrayList<>();
 
     private ArrayList<String> eventNames = new ArrayList<String>();
@@ -58,11 +56,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         sendRequest();
     }
 
@@ -70,23 +66,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     * we just add a marker at UIUC in Illinois.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //String nameCheck;
+
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker in UIUC and move the camera
         LatLng uiuc = new LatLng(40.110558, -88.228333);
-
-        //mMap.addMarker(new MarkerOptions().position(uiuc).title("UIUC"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(uiuc));
 
         Intent intent = new Intent(MapsActivity.this, NotificationActivity.class);
+
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -98,23 +90,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         startActivity(intent);
                     }
                 }
-                //Intent intent = new Intent(MapsActivity.this, NotificationActivity.class);
-                //startActivity(intent);
                 return false;
             }
         });
 
     }
 
+    /**
+     * sends a custom GsonRequest to the TicketMaster API,
+     * parses the response and displays markers on the map
+     * for different categories- sports, arts, family, theatre and music.
+     */
     public void sendRequest() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
+
         if (getIntent().getStringExtra("category").equals("sports")) {
+
+            //sports category
+
             String url = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=sports&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
             GsonRequest<JsonElement> request = new GsonRequest<JsonElement>(url, null,  response ->  {
-
-                //name = "Event";
                 JsonObject object = response.getAsJsonObject();
                 JsonObject embedded = object.get("_embedded").getAsJsonObject();
                 JsonArray events = embedded.get("events").getAsJsonArray();
@@ -122,14 +119,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (JsonElement event : events) {
                     JsonObject b = event.getAsJsonObject();
                     String name = b.get("name").getAsString();
-                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
                     JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
                     JsonArray venues = embedded1.get("venues").getAsJsonArray();
-                    /*for (JsonElement classification : classifications) {
-                        JsonObject c = classification.getAsJsonObject();
-                        JsonObject segment = c.get("segment").getAsJsonObject();
-                        String category = segment.get("name").getAsString();
-                    }*/
                     for (JsonElement venue : venues) {
                         JsonObject d = venue.getAsJsonObject();
                         JsonObject location = d.get("location").getAsJsonObject();
@@ -144,10 +135,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .title(name)
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
 
-
-                        /*Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(latitude, longitude))
-                                .title(name));*/
                     }
 
                 }
@@ -157,6 +144,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             queue.add(request);
 
         } else if (getIntent().getStringExtra("category").equals("music")) {
+
+            //music category
+
             String url1 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
             GsonRequest<JsonElement> request1 = new GsonRequest<JsonElement>(url1, null,  response ->  {
 
@@ -193,10 +183,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             });
             queue.add(request1);
         } else if (getIntent().getStringExtra("category").equals("family")) {
+
+            //family category
+
             String url2 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=family&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
             GsonRequest<JsonElement> request2 = new GsonRequest<JsonElement>(url2, null,  response ->  {
 
-                //name = "Event";
                 JsonObject object = response.getAsJsonObject();
                 JsonObject embedded = object.get("_embedded").getAsJsonObject();
                 JsonArray events = embedded.get("events").getAsJsonArray();
@@ -204,32 +196,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (JsonElement event : events) {
                     JsonObject b = event.getAsJsonObject();
                     String name = b.get("name").getAsString();
-                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
                     JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
                     JsonArray venues = embedded1.get("venues").getAsJsonArray();
-                    /*for (JsonElement classification : classifications) {
-                        JsonObject c = classification.getAsJsonObject();
-                        JsonObject segment = c.get("segment").getAsJsonObject();
-                        String category = segment.get("name").getAsString();
-                    }*/
                     for (JsonElement venue : venues) {
                         JsonObject d = venue.getAsJsonObject();
                         JsonObject location = d.get("location").getAsJsonObject();
                         latitude = location.get("latitude").getAsDouble();
                         longitude = location.get("longitude").getAsDouble();
-                        //if (exists(new LatLng(latitude, longitude))
                         markerlist.add(new LatLng(latitude, longitude));
-
                         eventNames.add(name);
                         mMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(latitude, longitude))
                                 .title(name)
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-
-                        /*Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(latitude, longitude))
-                                .title(name));*/
                     }
 
                 }
@@ -239,11 +218,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             queue.add(request2);
 
         } else if (getIntent().getStringExtra("category").equals("arts")) {
+
+            //arts category
+
             String url3 = "https://app.ticketmaster.com/discovery/v2/events.json?classificationName=arts&apikey=AkeZFRuRBawqRsmDWUG8KBOAm2lRGHGk";
 
             GsonRequest<JsonElement> request3 = new GsonRequest<JsonElement>(url3, null,  response ->  {
 
-                //name = "Event";
                 JsonObject object = response.getAsJsonObject();
                 JsonObject embedded = object.get("_embedded").getAsJsonObject();
                 JsonArray events = embedded.get("events").getAsJsonArray();
@@ -251,20 +232,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (JsonElement event : events) {
                     JsonObject b = event.getAsJsonObject();
                     String name = b.get("name").getAsString();
-                    //JsonArray classifications = b.get("classifications").getAsJsonArray();
                     JsonObject embedded1 = b.get("_embedded").getAsJsonObject();
                     JsonArray venues = embedded1.get("venues").getAsJsonArray();
-                    /*for (JsonElement classification : classifications) {
-                        JsonObject c = classification.getAsJsonObject();
-                        JsonObject segment = c.get("segment").getAsJsonObject();
-                        String category = segment.get("name").getAsString();
-                    }*/
                     for (JsonElement venue : venues) {
                         JsonObject d = venue.getAsJsonObject();
                         JsonObject location = d.get("location").getAsJsonObject();
                         latitude = location.get("latitude").getAsDouble();
                         longitude = location.get("longitude").getAsDouble();
-                        //if (exists(new LatLng(latitude, longitude))
                         markerlist.add(new LatLng(latitude, longitude));
 
                         eventNames.add(name);
@@ -273,10 +247,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 .title(name)
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
-
-                        /*Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(latitude, longitude))
-                                .title(name));*/
                     }
 
                 }

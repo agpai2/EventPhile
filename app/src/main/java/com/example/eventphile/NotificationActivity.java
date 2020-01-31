@@ -23,22 +23,21 @@ import java.util.Calendar;
 
 import static com.example.eventphile.Global.strings;
 
-@SuppressWarnings("deprecation")
 public class NotificationActivity extends AppCompatActivity  {
 
     private String name;
     private NotificationCompat.Builder builder;
     private NotificationManager manager;
     private java.util.Date date;
-    //private ArrayList<String> strings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
         TextView eventname = findViewById(R.id.eventName);
-        //need to use intent
-        name = getIntent().getStringExtra("nameCheck"); //check this again
+        name = getIntent().getStringExtra("nameCheck");
         eventname.setText(name);
 
 
@@ -46,8 +45,8 @@ public class NotificationActivity extends AppCompatActivity  {
         favorite.setOnClickListener(unused -> {
             Intent intent = new Intent(this, CalenderActivity.class);
             strings.add(name);
-            //intent.putExtra("eventName", strings);
             startActivity(intent);
+
         });
 
     }

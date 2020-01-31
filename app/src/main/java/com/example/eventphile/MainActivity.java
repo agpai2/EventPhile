@@ -27,8 +27,10 @@ public final class MainActivity extends AppCompatActivity {
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         Typeface typeface;
@@ -36,32 +38,35 @@ public final class MainActivity extends AppCompatActivity {
         typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
         font.setTypeface(typeface);
 
-
+        //The "Events Map" button's on-click is defined
         Button eventsmap = findViewById(R.id.mapButton);
-        //context must be checked
         eventsmap.setOnClickListener(unused -> {
             startActivity(new Intent(this, FilterActivity.class));
-            //finish or not?
         });
 
+
+        //The "Favorites" button's on-click is defined
         Button reminder = findViewById(R.id.reminderCalendar);
-        //context must be checked
         reminder.setOnClickListener(unused -> {
             startActivity(new Intent(this, CalenderActivity.class));
         });
 
+
+        //The "About" button's on-click is defined
         Button about = findViewById(R.id.aboutUs);
-        //context must be checked
         about.setOnClickListener(unused -> {
             startActivity(new Intent(this, AboutUsActivity.class));
         });
 
+
+        //The "Contact" button's on-click is defined
         Button contact = findViewById(R.id.contact);
-        //context must be checked
         contact.setOnClickListener(unused -> {
             startActivity(new Intent(this, ContactUsActivity.class));
         });
 
+
+        //Background images: An image randomly chosen from a set of 6 images is displayed every 2 seconds.
         final int[] backgroundImages = {R.drawable.event1, R.drawable.event2, R.drawable.event3, R.drawable.event4, R.drawable.event5, R.drawable.event6};
         final LinearLayout background = findViewById(R.id.mylayout);
         background.setBackgroundResource(backgroundImages[new Random().nextInt(6)]);

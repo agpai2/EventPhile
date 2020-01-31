@@ -42,12 +42,17 @@ import java.util.function.Consumer;
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
 public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElement> {
+
     private final Gson gson = new Gson();
-    //private final Class<T> clazz;
+
     private final Map<String, String> headers;
+
     private final com.android.volley.Response.Listener<com.google.gson.JsonElement> listener;
+
     private static JsonParser jsonParser = new JsonParser();
+
     private static final String TAG = "GsonRequest";
+
 
     /**
      * Make a GET request and return a parsed object from JSON.
@@ -58,12 +63,13 @@ public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElemen
      */
     public GsonRequest(String url, Map<String, String> headers,
                        com.android.volley.Response.Listener<com.google.gson.JsonElement> listener, ErrorListener errorListener) {
+
         super(Method.GET, url, errorListener);
-        //this.clazz = clazz;
         this.headers = headers;
         this.listener = listener;
 
         com.android.volley.Response.Listener<com.google.gson.JsonElement> serverResponseListener = jsonobjectResponse -> {
+
             if (jsonobjectResponse == null) {
                 Log.i(TAG, "Delivering empty response from " + url);
                 listener.onResponse(null);
@@ -72,10 +78,14 @@ public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElemen
                 listener.onResponse((JsonObject) jsonParser.parse(String.valueOf(jsonobjectResponse)).getAsJsonObject());
             }
         };
+
         Response.ErrorListener serverErrorListener = error -> {
+
             if (error.networkResponse != null && error.networkResponse.data != null
                     && error.networkResponse.statusCode == HTTP_BAD_REQUEST) {
+
                 String responseData = new String(error.networkResponse.data);
+
                 try {
                     JsonObject errObject = jsonParser.parse(responseData).getAsJsonObject();
                     Log.i(TAG, "Delivering application-level error from " + url);
@@ -84,9 +94,12 @@ public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElemen
                     Log.i(TAG, "Delivering 400 error from " + url);
                     errorListener.onErrorResponse(error);
                 }
+
             } else {
+
                 Log.i(TAG, "Delivering Volley error response from " + url);
                 errorListener.onErrorResponse(error);
+
             }
         };
     }
@@ -103,6 +116,7 @@ public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElemen
 
     @Override
     protected com.android.volley.Response<com.google.gson.JsonElement> parseNetworkResponse(NetworkResponse response) {
+
         try {
             String json = new String(
                     response.data,
@@ -115,5 +129,6 @@ public class GsonRequest<JsonElement> extends Request<com.google.gson.JsonElemen
         } catch (JsonSyntaxException e) {
             return com.android.volley.Response.error(new ParseError(e));
         }
+
     }
 }

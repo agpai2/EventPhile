@@ -17,32 +17,20 @@ import static com.example.eventphile.Global.strings;
 
 public class CalenderActivity extends AppCompatActivity {
 
-    //private ArrayList<String> strings = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
 
-        //LinearLayout reminders = findViewById(R.id.pop);
-        //reminders.removeAllViews();
-        //View myChunk = getLayoutInflater().inflate(R.layout.chunk_reminders, reminders, false );
-
-        //strings = getIntent().getStringArrayListExtra("eventName");
-
         TextView eventNames = findViewById(R.id.eventNames);
-        //TextView date = myChunk.findViewById(R.id.date);
-        //TextView time = myChunk.findViewById(R.id.time);
-        String empty ="";
+
+        String empty = "";
         for (String string : strings) {
             empty += string + "\n" + "\n";
         }
         eventNames.setText(empty);
-        //eventNames.setText(eventName);
-        //date.setText("");
-        //time.setText("");
 
-        //reminders.addView(myChunk);
 
     }
 }

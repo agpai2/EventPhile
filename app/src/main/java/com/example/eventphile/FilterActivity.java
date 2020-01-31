@@ -11,21 +11,28 @@ import android.widget.TextView;
 public class FilterActivity extends AppCompatActivity {
 
 
-
+    //Activity corresponding to the intermediate screen- displayed once a user clicks on "Events Map" button, but
+    //before the map is displayed.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+
+        //defining button variables
         Button sports = findViewById(R.id.sports);
         Button music = findViewById(R.id.music);
         Button arts = findViewById(R.id.arts);
         Button family = findViewById(R.id.family);
 
+        //setting the font
         Typeface typeface;
         TextView textView = findViewById(R.id.textView);
         typeface = Typeface.createFromAsset(getAssets(), "fonts/new.ttf");
         textView.setTypeface(typeface);
 
+
+        //defining what clicking each of the buttons does.
         Intent intent = new Intent(this, MapsActivity.class);
 
         sports.setOnClickListener(unused -> {
